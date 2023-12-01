@@ -47,6 +47,10 @@ class Accordium {
         console.log(content);
     }
 
+    runNested(content) {
+        console.log(content);
+    }
+
     getCurrentHeader(index) {
         return this.headers[index];
     }
