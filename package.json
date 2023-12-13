@@ -1,0 +1,13 @@
+{
+  "name": "accordium",
+  "version": "1.0.0",
+  "description": "Light weight accordion",
+  "scripts": {
+    "start": "ts-node-dev src/accordium.ts",
+    "build": "tsc"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.2"
+  }
+}

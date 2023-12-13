@@ -19,7 +19,7 @@
           <p>Multiple</p>
           <div data-accordion>
             <div data-accordion-body>
-              <div data-accordion-header>src</div>
+              <div data-accordion-header></div>
               <div data-accordion-content>
                 <div class="accordion-content">
                   <ul class="list">
@@ -31,7 +31,7 @@
               </div>
             </div>
             <div data-accordion-body>
-              <div data-accordion-header>src</div>
+              <div data-accordion-header></div>
               <div data-accordion-content>
                 <div class="accordion-content">
                   <ul class="list">
@@ -48,7 +48,7 @@
           <p>Single</p>
           <div data-accordion>
             <div data-accordion-body>
-              <div data-accordion-header>src</div>
+              <div data-accordion-header></div>
               <div data-accordion-content>
                 <div class="accordion-content">
                   <ul class="list">
@@ -60,7 +60,7 @@
               </div>
             </div>
             <div data-accordion-body>
-              <div data-accordion-header>src</div>
+              <div data-accordion-header></div>
               <div data-accordion-content>
                 <div class="accordion-content">
                   <ul class="list">
@@ -68,6 +68,83 @@
                     <li>style.css</li>
                     <li>script.js</li>
                   </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="types">
+          <p>Nested</p>
+          <div data-accordion>
+            <div data-accordion-body>
+              <div data-accordion-header></div>
+              <div data-accordion-content>
+                <div class="accordion-content">
+                  <ul class="list">
+                    <li>index.js</li>
+                    <li>style.css</li>
+                    <li>script.js</li>
+                  </ul>
+                </div>
+                <div data-accordion-body>
+                  <div data-accordion-header></div>
+                  <div data-accordion-content>
+                    <div class="accordion-content">
+                      <ul class="list">
+                        <li>index.js</li>
+                        <li>style.css</li>
+                        <li>script.js</li>
+                      </ul>
+                      <div data-accordion-body>
+                        <div data-accordion-header></div>
+                        <div data-accordion-content>
+                          <div class="accordion-content">
+                            <ul class="list">
+                              <li>index.js</li>
+                              <li>style.css</li>
+                              <li>script.js</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-accordion-body>
+              <div data-accordion-header></div>
+              <div data-accordion-content>
+                <div class="accordion-content">
+                  <ul class="list">
+                    <li>index.js</li>
+                    <li>style.css</li>
+                    <li>script.js</li>
+                  </ul>
+                </div>
+                <div data-accordion-body>
+                  <div data-accordion-header></div>
+                  <div data-accordion-content>
+                    <div class="accordion-content">
+                      <ul class="list">
+                        <li>index.js</li>
+                        <li>style.css</li>
+                        <li>script.js</li>
+                      </ul>
+                      <div data-accordion-body>
+                        <div data-accordion-header></div>
+                        <div data-accordion-content>
+                          <div class="accordion-content">
+                            <ul class="list">
+                              <li>index.js</li>
+                              <li>style.css</li>
+                              <li>script.js</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -166,6 +243,11 @@
   [data-accordion-header]:hover {
     background-color: #3f3d4b;
   }
+
+  [data-accordion-body] [data-accordion-body] {
+    margin-top: 16px;
+    padding-left: 16px;
+  }
 </style>
 
-<script src="accordium.js"></script>
+<script src="/dist/accordium.js"></script>
