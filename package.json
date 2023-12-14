@@ -2,12 +2,19 @@
   "name": "accordium",
   "version": "1.0.0",
   "description": "Light weight accordion",
+  "type": "module",
   "scripts": {
-    "start": "ts-node-dev src/accordium.ts",
+    "dev": "swc --watch src -d ./dist",
     "build": "tsc"
   },
   "license": "MIT",
   "devDependencies": {
+    "@swc/cli": "^0.1.63",
+    "@swc/core": "^1.3.100",
+    "chokidar": "^3.5.3",
     "typescript": "^5.3.2"
+  },
+  "esnext": {
+    "browser": "chrome"
   }
 }
