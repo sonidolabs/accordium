@@ -1,14 +1,28 @@
 {
   "name": "accordium",
   "version": "1.0.0",
-  "description": "Light weight accordion",
-  "type": "module",
+  "author": "Gabriel Batista",
+  "main": "lib/accordium",
+  "type": "commonjs",
+  "repository": "sonidolabs/accordium",
+  "description": "Light weight accordion for your project.",
   "scripts": {
-    "build": "tsc"
+    "build": "npx webpack"
   },
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^5.3.2"
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.6",
+    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
+    "@babel/preset-env": "^7.23.6",
+    "@babel/preset-typescript": "^7.23.3",
+    "babel-loader": "^9.1.3",
+    "concurrently": "^8.2.2",
+    "terser-webpack-plugin": "^5.3.9",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
   },
   "esnext": {
     "browser": "chrome"

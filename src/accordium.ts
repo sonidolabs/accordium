@@ -109,7 +109,7 @@ class AccordiumElements {
   }
 }
 
-class Accordium extends AccordiumElements {
+export class Accordium extends AccordiumElements {
   accordiumMap: Record<number, Record<string, Record<string, HTMLElement>>> = {};
 
   constructor(options?: Options) {
@@ -171,21 +171,23 @@ class Accordium extends AccordiumElements {
   }
 
   runMultiple(parentIndex: number, elIndex: number): void {
+    const { enableAria } = this.options;
     const headerElement = this.accordiumMap[parentIndex].headers[elIndex] as HTMLElement;
     const contentElement = this.accordiumMap[parentIndex].contents[elIndex] as HTMLElement;
 
     const shouldClose = this.isClose(contentElement);
 
-    this.toggleARIA(headerElement, shouldClose);
+    if (enableAria) this.toggleARIA(headerElement, shouldClose);
     this.setContentHeight(contentElement, shouldClose);
   }
 
   runSingle(parentIndex: number, elIndex: number): void {
+    const { enableAria } = this.options;
     const headerElement = this.accordiumMap[parentIndex].headers[elIndex] as HTMLElement;
     const contentElement = this.accordiumMap[parentIndex].contents[elIndex] as HTMLElement;
     const shouldClose = this.isClose(contentElement);
 
-    this.toggleARIA(headerElement, shouldClose);
+    if (enableAria) this.toggleARIA(headerElement, shouldClose);
     this.setContentHeight(contentElement, shouldClose);
 
     Object.entries(this.accordiumMap[parentIndex].contents).forEach(([key, value]) => {
@@ -195,19 +197,20 @@ class Accordium extends AccordiumElements {
     });
 
     Object.entries(this.accordiumMap[parentIndex].headers).forEach(([key, value]) => {
-      if (parseInt(key) !== elIndex) {
+      if (parseInt(key) !== elIndex && enableAria) {
         this.toggleARIA(value, false);
       }
     });
   }
 
   runNested(parentIndex: number, elIndex: number): void {
+    const { enableAria } = this.options;
     const headerElement = this.accordiumMap[parentIndex].headers[elIndex] as HTMLElement;
     const contentElement = this.accordiumMap[parentIndex].contents[elIndex] as HTMLElement;
     const shouldClose = this.isClose(contentElement);
     const currentElementHeight = contentElement.scrollHeight;
 
-    this.toggleARIA(headerElement, shouldClose);
+    if (enableAria) this.toggleARIA(headerElement, shouldClose);
     this.setContentHeight(contentElement, shouldClose);
 
     let parentElement = this.findFirstParent(contentElement, Ref.Attr.Content);
@@ -237,5 +240,3 @@ class Accordium extends AccordiumElements {
     }
   }
 }
-
-new Accordium({ enableAria: true });

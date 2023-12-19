@@ -5,9 +5,9 @@
     "moduleResolution": "node",
     "outDir": "./dist",
     "strict": true,
-    "esModuleInterop": true
-  },
-  "buildOptions": {
-    "traceResolution": true
+    "esModuleInterop": true,
+    "removeComments": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   }
 }
