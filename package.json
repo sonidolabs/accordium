@@ -1,5 +1,5 @@
 {
-  "name": "@sonidolabs/accordium",
+  "name": "accordium",
   "version": "1.0.0",
   "author": "Gabriel Batista",
   "main": "./dist/accordium.cjs",
@@ -8,7 +8,10 @@
     "require": "./dist/accordium.cjs"
   },
   "type": "module",
-  "repository": "sonidolabs/accordium",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sonidolabs/accordium.git"
+  },
   "description": "Light weight accordion for your project.",
   "scripts": {
     "build:common": "npx swc --config-file common.swcrc ./src/accordium.ts -o ./dist/accordium.cjs",
@@ -23,5 +26,8 @@
   },
   "esnext": {
     "browser": "chrome"
+  },
+  "bugs": {
+    "url": "https://github.com/sonidolabs/accordium/issues"
   }
 }
