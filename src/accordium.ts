@@ -1,148 +1,242 @@
-interface Options {
-    mode: string | string[];
-    customClass: string;
+namespace Ref {
+  export enum Query {
+    Main = '[data-accordium]',
+    Header = '[data-accordium-header]',
+    Content = '[data-accordium-content]',
+  }
+
+  export enum Attr {
+    Main = 'data-accordium',
+    Header = 'data-accordium-header',
+    Content = 'data-accordium-content',
+  }
 }
 
-class Accordium {
-    options: Options;
-    defaultOptions: Options;
-    accordions: NodeListOf<HTMLElement>
-    accordiumMap: { 
-        [index: number]: { 
-            [index: number]: HTMLElement 
-        } 
+enum Modes {
+  Multiple = 'multiple',
+  Single = 'single',
+  Nested = 'nested',
+}
+
+type Options = {
+  mode?: Modes | Modes[];
+  customClass?: string;
+  enableAria?: boolean
+}
+
+class AccordiumElements {
+  options: Options;
+  defaultOptions: Options;
+  accordiums: NodeListOf<HTMLElement>;
+  
+  constructor(options?: Options) {
+    this.defaultOptions = {
+      mode: [Modes.Multiple, Modes.Single, Modes.Nested],
+      customClass: 'active',
+      enableAria: true
+    };
+
+    this.options = {
+      ...this.defaultOptions,
+      ...options
+    };
+
+    this.accordiums = document.querySelectorAll(Ref.Query.Main);
+  }
+
+  getAccordiumChildren(parentIndex: number) {
+    const accordium = this.accordiums[parentIndex];
+
+    if (!accordium) 
+      console.error(`The position ${parentIndex} not exists in accordiums`);
+
+    return {
+      header: accordium.querySelectorAll<HTMLElement>(Ref.Query.Header)!,
+      content: accordium.querySelectorAll<HTMLElement>(Ref.Query.Content)!,
+    };
+  }
+
+  toggleARIA(headerElement: HTMLElement, shouldClose: boolean) {
+    headerElement.setAttribute('aria-expanded', shouldClose.toString());
+  }
+
+  defineElementAttr(element: HTMLElement, attribute: string, value: string | boolean) {
+    const attributeValue: string = typeof value === 'boolean' ? value.toString() : value;
+
+    element.setAttribute(attribute, attributeValue);
+  }
+
+  defineElementStyle(element: HTMLElement) {
+    element.style.maxHeight = '0px';
+    element.style.overflow = 'hidden';
+  }
+
+  parseElementId(element: HTMLElement, id: string): number {
+    return parseInt(element.id.replace(`${id}`, ''));
+  }
+
+  parseObjectKey(element: HTMLElement, id: string): number {
+    return parseInt(element.id.replace(`${id}`, ''));
+  }
+
+  findFirstParent(
+    element: HTMLElement | undefined,
+    targetAttribute: string
+  ): HTMLElement | null {
+    const parent = element?.parentElement;
+    if (parent)
+      return parent.hasAttribute(targetAttribute)
+        ? parent
+        : this.findFirstParent(parent, targetAttribute);
+    return null;
+  }
+
+  setContentHeight(element: HTMLElement, shouldClose: boolean): void {
+    const { customClass } = this.options;
+
+    if (shouldClose) {
+      element.classList.add(customClass!);
+      element.style.maxHeight = `${element.scrollHeight}px`;
+      return;
     }
 
-    constructor(options = {}) {
-        this.defaultOptions = {
-            mode: ['multiple', 'single', 'nested'],
-            customClass: 'active'
-        }
+    element.classList.remove(customClass!);
+    element.style.maxHeight = '0px';
+  }
 
-        this.options = Object.assign(this.defaultOptions, options);
-        this.accordions = document.querySelectorAll('[data-accordion]');
-        this.accordiumMap = {};
+  isClose(element: HTMLElement): boolean {
+    return element.style.maxHeight === '0px';
+  }
+}
 
-        for (let i = 0; i < this.accordions.length; i++) {
-            const parentIndex: number = i;
-            const headerElements: NodeListOf<HTMLElement> = this.accordions[i].querySelectorAll('[data-accordion-header]');
-            const contentElements: NodeListOf<HTMLElement> = this.accordions[i].querySelectorAll('[data-accordion-content]');
+export class Accordium extends AccordiumElements {
+  accordiumMap: Record<number, Record<string, Record<string, HTMLElement>>> = {};
 
-            this.accordiumMap[i] = {};
+  constructor(options?: Options) {
+    super(options);
 
-            for (let j = 0; j < contentElements.length; j++) {
-                headerElements[j].innerText = `${j} - src`;
-                headerElements[j].setAttribute('id', `accordium-${j}`);
-                
-                contentElements[j].style.maxHeight = '0px';
-                contentElements[j].style.overflow = 'hidden';
-
-                this.accordiumMap[i][j] = contentElements[j];
-            }
-
-            this.accordions[i].addEventListener('click', (e: MouseEvent) => {
-                const target = e.target as HTMLElement;
-
-                if (!target.hasAttribute('data-accordion-header')) return;
-                
-                const { mode } = this.options;
-                const modeState = Array.isArray(mode) ? mode[i] : mode;
-                const headerElement = e.target as HTMLElement;
-                const headerIndex: number = this.parseElementId(headerElement);
-
-                this.toggleAccordium(parentIndex, headerIndex, modeState);
-            });
-        }
-    }
-
-    parseElementId(element: HTMLElement): number {
-        return parseInt(element.id.replace('accordium-', ''));
-    }
-
-    findFirstParent (element: HTMLElement | undefined, targetAttribute: string): HTMLElement | null {
-        if (element) {
-            while (element.parentElement) {
-                if (element.parentElement.hasAttribute(targetAttribute)) {
-                    return element.parentElement;
-                }
-                element = element.parentElement;
-            }
-        }
-
-        return null
-    }
-
-    setContentHeight(content: HTMLElement, shouldClose: boolean): void {
-        const { customClass } = this.options;
-
-        if (shouldClose) {
-            content.classList.add(customClass);
-            content.style.maxHeight = `${content.scrollHeight}px`;
-
-            return
-        }
-
-        content.classList.remove(customClass);
-        content.style.maxHeight = '0px';
-    }
-
-    isClose(element: HTMLElement): boolean {
-        return element.style.maxHeight === '0px';
-    }
-
-    runMultiple(parentIndex: number, elIndex: number): void {
-        const contentElement = this.accordiumMap[parentIndex][elIndex] as HTMLElement;
-        const shouldClose = this.isClose(contentElement);
-        
-        this.setContentHeight(contentElement, shouldClose);
-    }
-
-    runSingle(parentIndex: number, elIndex: number): void {
-        const contentElement = this.accordiumMap[parentIndex][elIndex] as HTMLElement;
-        const shouldClose = this.isClose(contentElement);
-
-        this.setContentHeight(contentElement, shouldClose);
-        
-        Object.entries(this.accordiumMap[parentIndex]).forEach(([key, value]) => {
-            if (parseInt(key) !== elIndex) {
-                this.setContentHeight(value, false);
-            }
-        });
-    }
-
-    runNested(parentIndex: number, elIndex: number): void {
-        const contentElement = this.accordiumMap[parentIndex][elIndex] as HTMLElement;
-        const shouldClose = this.isClose(contentElement);
-        const currentElementHeight = contentElement.scrollHeight;
-
-        this.setContentHeight(contentElement, shouldClose);
-
-        let parentElement = this.findFirstParent(contentElement, 'data-accordion-content');        
-
-        while (parentElement) {
-            const parentElementHeight = parentElement?.scrollHeight;
-
-            parentElement.style.maxHeight = `${parentElementHeight + currentElementHeight}px`;
+    const { 
+      mode,
+      enableAria
+     } = this.options;
     
-            parentElement = this.findFirstParent(parentElement, 'data-accordion-content');
+    for (let i = 0; i < this.accordiums.length; i++) {
+      const parentIndex: number = i;
+      const {
+        header: headerElements,
+        content: contentElements
+      } = this.getAccordiumChildren(parentIndex);
+
+      if (enableAria && mode) {
+        const isSingle: boolean = mode[i] === 'single';
+
+        this.defineElementAttr(this.accordiums[i], 'aria-multiselectable', !isSingle);
+      }
+
+      this.defineElementAttr(this.accordiums[i], 'id', `accordium-${i}`);
+      
+      this.accordiumMap[i] = {};
+      this.accordiumMap[i].headers = {};
+      this.accordiumMap[i].contents = {};
+      
+      for (let j = 0; j < contentElements.length; j++) {
+        this.accordiumMap[i].headers[j] = headerElements[j];
+        this.accordiumMap[i].contents[j] = contentElements[j];
+
+        if (enableAria) {
+          this.defineElementAttr(headerElements[j], 'aria-expanded', 'false');
+          this.defineElementAttr(headerElements[j], 'aria-controls', `content-${i}-${j}`);
+
+          this.defineElementAttr(contentElements[j], 'role', 'region');
+          this.defineElementAttr(contentElements[j], 'aria-labelledby', `accordium-${i}-${j}`);
         }
+        
+        this.defineElementAttr(headerElements[j], 'id', `header-${i}-${j}`);
+        this.defineElementAttr(contentElements[j], 'id', `content-${i}-${j}`);
+        this.defineElementStyle(contentElements[j]);
+      }
+
+      this.accordiums[i].addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+
+        if (!target.hasAttribute(Ref.Attr.Header)) return;
+
+        const modeState = Array.isArray(mode) ? mode[i] : mode;
+        const headerElementTarget = e.target as HTMLElement;
+        const headerIndex: number = this.parseElementId(headerElementTarget, `header-${i}-`);
+
+        this.toggleAccordium(parentIndex, headerIndex, modeState!);
+      });
     }
+  }
 
-    toggleAccordium(parentIndex: number, elIndex: number, mode: string | string[]): void {
-        switch (mode) {
-            case 'nested':
-                this.runNested(parentIndex, elIndex);
-                break;
+  runMultiple(parentIndex: number, elIndex: number): void {
+    const { enableAria } = this.options;
+    const headerElement = this.accordiumMap[parentIndex].headers[elIndex] as HTMLElement;
+    const contentElement = this.accordiumMap[parentIndex].contents[elIndex] as HTMLElement;
 
-            case 'single':
-                this.runSingle(parentIndex, elIndex);
-                break;
+    const shouldClose = this.isClose(contentElement);
 
-            default:
-                this.runMultiple(parentIndex, elIndex);
-                break;
-        }
+    if (enableAria) this.toggleARIA(headerElement, shouldClose);
+    this.setContentHeight(contentElement, shouldClose);
+  }
+
+  runSingle(parentIndex: number, elIndex: number): void {
+    const { enableAria } = this.options;
+    const headerElement = this.accordiumMap[parentIndex].headers[elIndex] as HTMLElement;
+    const contentElement = this.accordiumMap[parentIndex].contents[elIndex] as HTMLElement;
+    const shouldClose = this.isClose(contentElement);
+
+    if (enableAria) this.toggleARIA(headerElement, shouldClose);
+    this.setContentHeight(contentElement, shouldClose);
+
+    Object.entries(this.accordiumMap[parentIndex].contents).forEach(([key, value]) => {
+      if (parseInt(key) !== elIndex) {
+        this.setContentHeight(value, false);
+      }
+    });
+
+    Object.entries(this.accordiumMap[parentIndex].headers).forEach(([key, value]) => {
+      if (parseInt(key) !== elIndex && enableAria) {
+        this.toggleARIA(value, false);
+      }
+    });
+  }
+
+  runNested(parentIndex: number, elIndex: number): void {
+    const { enableAria } = this.options;
+    const headerElement = this.accordiumMap[parentIndex].headers[elIndex] as HTMLElement;
+    const contentElement = this.accordiumMap[parentIndex].contents[elIndex] as HTMLElement;
+    const shouldClose = this.isClose(contentElement);
+    const currentElementHeight = contentElement.scrollHeight;
+
+    if (enableAria) this.toggleARIA(headerElement, shouldClose);
+    this.setContentHeight(contentElement, shouldClose);
+
+    let parentElement = this.findFirstParent(contentElement, Ref.Attr.Content);
+
+    while (parentElement) {
+      const parentElementHeight = parentElement?.scrollHeight;
+
+      parentElement.style.maxHeight = `${parentElementHeight + currentElementHeight}px`;
+
+      parentElement = this.findFirstParent(parentElement, Ref.Attr.Content);
     }
+  }
+
+  toggleAccordium(parentIndex: number, elIndex: number, mode: Modes): void {
+    switch (mode) {
+      case Modes.Nested:
+        this.runNested(parentIndex, elIndex);
+        break;
+
+      case Modes.Single:
+        this.runSingle(parentIndex, elIndex);
+        break;
+
+      default:
+        this.runMultiple(parentIndex, elIndex);
+        break;
+    }
+  }
 }
-
-new Accordium();
