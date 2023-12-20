@@ -1,1 +1,0 @@
-export { Accordium } from './src/accordium';
