@@ -1,4 +1,4 @@
-import { Ref, Modes, Options } from '../types/accordium.js';
+import { Ref, Modes, Options } from './types/accordium';
 
 class AccordiumElements {
   options: Options;

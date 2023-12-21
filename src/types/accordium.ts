@@ -3,7 +3,7 @@ export namespace Ref {
         Main = '[data-accordium]',
         Header = '[data-accordium-header]',
         Content = '[data-accordium-content]',
-    }
+    } 
 
     export enum Attr {
         Main = 'data-accordium',
