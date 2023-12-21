@@ -1,6 +1,6 @@
 {
   "name": "accordium",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Gabriel Batista",
   "main": "./dist/accordium.cjs",
   "exports": {
