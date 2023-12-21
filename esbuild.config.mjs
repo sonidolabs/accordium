@@ -4,7 +4,7 @@ await esbuild.build({
   entryPoints: ["./src/accordium.ts"],
   bundle: true,
   outfile: "./dist/accordium.mjs",
-  minify: false,
+  minify: true,
   format: "esm",
   target: ["es2015"],
 });
@@ -13,7 +13,7 @@ await esbuild.build({
   entryPoints: ["./src/accordium.ts"],
   bundle: true,
   outfile: "./dist/accordium.cjs",
-  minify: false,
+  minify: true,
   format: "cjs",
   target: ["es2015"],
 });
