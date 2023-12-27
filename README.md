@@ -10,7 +10,7 @@
 
 <br>
 
-![Accordium banner](/src/imgs/accordium-cover-pt-BR.png)
+![Accordium banner](/src/imgs/accordium-cover-en-US.png)
 
 Tradução: [Português Brasileiro](./README.md)
 
