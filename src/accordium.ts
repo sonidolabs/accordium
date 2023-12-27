@@ -1,28 +1,4 @@
-namespace Ref {
-  export enum Query {
-    Main = '[data-accordium]',
-    Header = '[data-accordium-header]',
-    Content = '[data-accordium-content]',
-  }
-
-  export enum Attr {
-    Main = 'data-accordium',
-    Header = 'data-accordium-header',
-    Content = 'data-accordium-content',
-  }
-}
-
-enum Modes {
-  Multiple = 'multiple',
-  Single = 'single',
-  Nested = 'nested',
-}
-
-type Options = {
-  mode?: Modes | Modes[];
-  customClass?: string;
-  enableAria?: boolean
-}
+import { Ref, Modes, Options } from './types/accordium';
 
 class AccordiumElements {
   options: Options;
@@ -31,7 +7,7 @@ class AccordiumElements {
   
   constructor(options?: Options) {
     this.defaultOptions = {
-      mode: [Modes.Multiple, Modes.Single, Modes.Nested],
+      mode: Modes.Multiple,
       customClass: 'active',
       enableAria: true
     };
