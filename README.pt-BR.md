@@ -1,16 +1,16 @@
 <div align="center">
   <a href="#instalação">Instalação</a> 
   &nbsp;&nbsp;
-  <a href="#features">Features</a> 
+  <a href="#como-usar">Como usar</a> 
   &nbsp;&nbsp;
-  <a href="#comandos">Comandos</a>
+  <a href="#opções">Opções</a>
   &nbsp;&nbsp;
   <a href="#suporte-e-contribuição">Contribuições</a>
 </div>
 
-## Accordium
+<br>
 
-Crie listas expansivas a partir de uma estrutura totalmente sem estilos.
+![Accordium banner](/src/imgs/accordium-cover-pt-BR.png)
 
 Translation: [English](./README.md)
 
@@ -38,7 +38,7 @@ ou utilize o CDN:
 
 ### Como usar
 
-Accordium foi pensado para ser simples de ser usado, visando facilitar a sua utilização e proporcionar total liberdade criativa. Após a instalação, basta construir a estrutura HTML inserindo os atributos necessários e instanciar a classe:
+Após a instalação, basta construir a estrutura HTML inserindo os atributos necessários e instanciar a classe:
 
 ```html
 <!-- Estrutura dos modos 'multiple' e 'single' -->
