@@ -3,7 +3,7 @@
   &nbsp;&nbsp;
   <a href="#how-to-use">How to use</a> 
   &nbsp;&nbsp;
-  <a href="#options">options</a>
+  <a href="#options">Options</a>
   &nbsp;&nbsp;
   <a href="#support-and-contribution">Contributions</a>
 </div>
