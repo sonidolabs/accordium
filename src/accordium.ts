@@ -7,7 +7,7 @@ class AccordiumElements {
   
   constructor(options?: Options) {
     this.defaultOptions = {
-      mode: [Modes.Multiple, Modes.Single, Modes.Nested],
+      mode: Modes.Multiple,
       customClass: 'active',
       enableAria: true
     };
