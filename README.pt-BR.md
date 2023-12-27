@@ -79,8 +79,10 @@ Após a instalação, basta construir a estrutura HTML inserindo os atributos ne
 | `enableAria`  | boolean            | true       | Define os atributos de acessibilidade                                                                                                                                                                                                                                     |
 
 ```javascript
-// Padrão
+// src/js/accordium.js
+import { Accordium } from "accordium";
 
+// Padrão
 new Accordium({
   mode: "multiple",
   customClass: "active",
@@ -90,9 +92,9 @@ new Accordium({
 
 ### Suporte e Contribuição
 
-Se você encontrar algum problema ou tiver sugestões para melhorias, sinta-se à vontade para abrir uma [issue](https://github.com/sonidolabs/dashe/issues) no repositório do GitHub.
+Se você encontrar algum problema ou tiver sugestões para melhorias, sinta-se à vontade para abrir uma [issue](https://github.com/sonidolabs/accordium/issues) no repositório do GitHub.
 
-Se você deseja contribuir, por favor abra uma [pull request](https://github.com/sonidolabs/dashe/pulls) no repositório.
+Se você deseja contribuir, por favor abra uma [pull request](https://github.com/sonidolabs/accordium/pulls) no repositório.
 
 ---
 
