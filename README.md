@@ -12,7 +12,7 @@
 
 ![Accordium banner](/src/imgs/accordium-cover-en-US.png)
 
-Tradução: [Português Brasileiro](./README.md)
+Tradução: [Português Brasileiro](./README.pt-BR.md)
 
 ### Installation
 
@@ -79,7 +79,7 @@ It is possible to pass some options as parameters to meet the needs of the proje
 | `enableAria`  | boolean            | true       | Sets accessibility attributes                                                                                                                                                                                                                                               |
 
 ```javascript
-// src/js/accordium.js
+// accordium.js
 import { Accordium } from "accordium";
 
 // Default

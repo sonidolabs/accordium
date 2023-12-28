@@ -79,7 +79,7 @@ Após a instalação, basta construir a estrutura HTML inserindo os atributos ne
 | `enableAria`  | boolean            | true       | Define os atributos de acessibilidade                                                                                                                                                                                                                                     |
 
 ```javascript
-// src/js/accordium.js
+// accordium.js
 import { Accordium } from "accordium";
 
 // Padrão
