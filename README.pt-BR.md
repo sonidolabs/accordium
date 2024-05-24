@@ -33,7 +33,7 @@ yarn add accordium
 ou utilize o CDN:
 
 ```html
-<script src="https://unpkg.com/accordium@1.0.3/dist/accordium.mjs"></script>
+<script type="module" src="https://unpkg.com/accordium@1.0.3/dist/accordium.mjs"></script>
 ```
 
 ### Como usar
